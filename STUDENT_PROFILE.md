@@ -7,6 +7,6 @@
 | ชื่อ-นามสกุล | ชื่อ-นามสกุล |
 | Section | SEC-X |
 | GitHub Username | GITHUB-USERNAME |
-| Repository | `engse203-student-labs-STUDENT-ID` |
+| Repository | `engse203-student-labs-68543210075-6` |
 
 > ไฟล์นี้จะถูกปรับข้อมูลเมื่อรัน `npm run setup`
