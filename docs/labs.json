@@ -32,16 +32,16 @@
   {
     "week": "week-03",
     "title": "Responsive Web UI & Form Interaction",
-    "status": "draft",
-    "originalRepoUrl": "",
-    "originalCommit": "",
+    "status": "submitted",
+    "originalRepoUrl": "https://github.com/Lunasnow22/engse203-lab02-68543210075-6",
+    "originalCommit": "6f7bc9bd3b8ee9c30e24a540f277032f29e20494",
     "pullRequestUrl": "",
-    "submissionTag": "",
-    "testStatus": "not-tested",
+    "submissionTag": "lab-03-submission-v3",
+    "testStatus": "pass",
     "notes": "Static site ต้องมี index.html ที่ publish root",
     "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-03/",
     "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-03/labs/week-03/source",
-    "hasPublish": false,
-    "sourceEntries": 3
+    "hasPublish": true,
+    "sourceEntries": 8
   }
 ]
