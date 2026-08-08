@@ -8,8 +8,8 @@
 
 ## URLs
 
-- Repository: [TODO](https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/main)
-- Pull Request: TODO
+- Repository: https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/main
+- Pull Request: https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/pull/7
 - GitHub Pages: TODO
 
 ## Component Tree
