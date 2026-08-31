@@ -14,20 +14,28 @@
 รันคำสั่ง `npm run build` แล้ววางบรรทัดสุดท้ายที่ขึ้นว่า `✓ built in ...` ลงตรงนี้
 
 ```
-(วางผลตรงนี้)
+
+vite v8.1.5 building client environment for production...
+✓ 42 modules transformed.
+computing gzip size...
+dist/index.html                   0.51 kB │ gzip:  0.32 kB
+dist/assets/index-UUV2Pq6a.css    4.79 kB │ gzip:  1.72 kB
+dist/assets/index-BjtKD4up.js   253.31 kB │ gzip: 80.00 kB
+
+✓ built in 115ms
 ```
 
 ---
 
 ## เช็คลิสต์ (ติ๊ก x ในวงเล็บเมื่อทำเสร็จ)
 
-- [ ] B1 แก้ครบ 6 จุด + `B1_BUGS.md` กรอกครบ
-- [ ] B2 ค้นหาทำงานครบ 4 checkpoint
-- [ ] B3 ปุ่ม "ทำเสร็จ" persist + รอด refresh (F5 แล้วยังอยู่)
-- [ ] B4 `PriorityBadge` + ใช้ใน `RequestCard`
-- [ ] `npm run build` ผ่าน
-- [ ] `AI_USAGE.md` กรอกครบ
-- [ ] push branch `midterm` + ติด tag `midterm-submission-v1`
+- [x] B1 แก้ครบ 6 จุด + `B1_BUGS.md` กรอกครบ
+- [x] B2 ค้นหาทำงานครบ 4 checkpoint
+- [x] B3 ปุ่ม "ทำเสร็จ" persist + รอด refresh (F5 แล้วยังอยู่)
+- [x] B4 `PriorityBadge` + ใช้ใน `RequestCard`
+- [x] `npm run build` ผ่าน
+- [x] `AI_USAGE.md` กรอกครบ
+- [x] push branch `midterm` + ติด tag `midterm-submission-v1`
 
 ---
 
