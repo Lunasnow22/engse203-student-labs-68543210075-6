@@ -1,6 +1,6 @@
-# ENGSE203 LAB 05 — Student Evidence README
+# ENGSE203 LAB05 Starter — Campus Service Request
 
-## ผู้จัดทำ
+Starter นี้เปิดได้และรักษาพฤติกรรมแกนของ Week04 แบบ in-memory แต่ตั้งใจยังไม่ผ่าน LAB05 ทุกข้อ ให้ทำตาม CP00–CP06 และรัน checker หลังแต่ละช่วง
 
 - ชื่อ–นามสกุล: นิรันดร์รักษ์ อนุสนธิ์
 - รหัสนักศึกษา: 68543210075-6
@@ -31,8 +31,7 @@ App (HashRouter + Routes)
 ## Setup และ Run
 
 ```bash
-nvm use
-npm install
+npm ci
 npm run dev
 npm run check
 npm run build
