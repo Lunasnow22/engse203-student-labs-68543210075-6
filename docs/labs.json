@@ -72,6 +72,36 @@
     "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-05/",
     "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-05/labs/week-05/source",
     "hasPublish": true,
-    "sourceEntries": 13
+    "sourceEntries": 12
+  },
+  {
+    "week": "week-06",
+    "title": "Node.js / Express API Foundation",
+    "status": "submitted",
+    "originalRepoUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/unit3/week-06/labs/week-06/source",
+    "originalCommit": "4883f7b8dbeb35b029ce4dac8a9811794ad23229",
+    "pullRequestUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/pull/18",
+    "submissionTag": "lab-06-submission-v2",
+    "testStatus": "pass",
+    "notes": "Finished LAB 6:ครบถ้วน (28/28 รายการ)",
+    "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-06/",
+    "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-06/labs/week-06/source",
+    "hasPublish": true,
+    "sourceEntries": 10
+  },
+  {
+    "week": "week-07",
+    "title": "React Routing Data Fetching Mini App",
+    "status": "submitted",
+    "originalRepoUrl": "",
+    "originalCommit": "",
+    "pullRequestUrl": "",
+    "submissionTag": "lab-07",
+    "testStatus": "pass",
+    "notes": "Finished LAB 7: ",
+    "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-07/",
+    "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-07/labs/week-07/source",
+    "hasPublish": true,
+    "sourceEntries": 3
   }
 ]
