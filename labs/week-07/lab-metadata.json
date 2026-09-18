@@ -1,11 +1,11 @@
 {
   "week": "week-07",
-  "title": "RESTful API, Validation & Error Handling",
-  "status": "ready",
-  "originalRepoUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-07/labs/week-07/source",
+  "title": "React Routing Data Fetching Mini App",
+  "status": "submitted",
+  "originalRepoUrl": "",
   "originalCommit": "",
   "pullRequestUrl": "",
-  "submissionTag": "lab-07-submission-v1",
+  "submissionTag": "lab-07",
   "testStatus": "pass",
-  "notes": "Completed Week 07 RESTful API, Validation & Error Handling"
+  "notes": "Finished LAB 7: "
 }
