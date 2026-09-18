@@ -1,15 +1,15 @@
 {
   "week": "week-07",
-  "title": "REST Validation and API Contract",
-  "status": "ready",
+  "title": "React Routing Data Fetching Mini App",
+  "status": "submitted",
   "originalRepoUrl": "",
   "originalCommit": "",
   "pullRequestUrl": "",
   "submissionTag": "lab-07",
   "testStatus": "pass",
-  "notes": "Completed Week 07 REST Validation and API Contract",
+  "notes": "Finished LAB 7: ",
   "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-07/",
   "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-07/labs/week-07/source",
-  "hasPublish": false,
-  "sourceEntries": 6
+  "hasPublish": true,
+  "sourceEntries": 5
 }
