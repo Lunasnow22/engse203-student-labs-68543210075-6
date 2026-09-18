@@ -103,7 +103,7 @@ export async function resetRequests() {
 }
 
 /**
- * updateRequestStatus · เปลี่ยนสถานะคำร้องแล้ว persist  (ให้มาแล้ว — ห้ามแก้)
+ * updateRequestStatus · เปลี่ยนสถานะคำร้องแล้ว persist  (ให้มาแล้ว — ห้ามแก้) 
  * ใช้ใน B3: เรียกฟังก์ชันนี้จากปุ่ม แล้วทำให้หน้าจอสะท้อนผล
  */
 export async function updateRequestStatus(requestId, nextStatus) {
