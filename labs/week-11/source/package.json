@@ -6,6 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "build": "echo 'No build step required for Node.js API'",
     "check": "node --disable-warning=ExperimentalWarning check-week11.mjs"
   },
   "devDependencies": {
