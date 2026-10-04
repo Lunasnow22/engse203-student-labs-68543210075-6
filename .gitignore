@@ -3,6 +3,8 @@
 **/.env
 **/.env.*
 !labs/week-11/source/api/.env.example
+!labs/week-11/source/frontend/.env.example
+!labs/week-11/source/frontend/.env.production
 .DS_Store
 Thumbs.db
 .vscode/

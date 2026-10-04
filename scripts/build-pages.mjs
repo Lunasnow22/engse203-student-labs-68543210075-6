@@ -50,6 +50,8 @@ for (const week of labs) {
 
   const sourceUrl = `${repoUrl}/tree/lab/${week}/labs/${week}/source`;
   const prUrl = validHttpUrl(metadata.pullRequestUrl);
+  const liveUrl = validHttpUrl(metadata.liveUrl);
+  const resultUrl = liveUrl || `labs/${week}/`;
   const pageUrl = `${pagesBase}/labs/${week}/`;
   const sourceCount = (await meaningfulEntries(path.join(labRoot, "source"))).length;
   const summary = { ...metadata, pageUrl, sourceUrl, hasPublish, sourceEntries: sourceCount };
@@ -59,8 +61,9 @@ for (const week of labs) {
   cards.push(`<article class="lab-card" data-status="${escapeHtml(metadata.status)}">
     <div class="card-top"><span class="week">${escapeHtml(week)}</span><span class="status">${escapeHtml(statusLabels[metadata.status] ?? metadata.status)}</span></div>
     <h2>${escapeHtml(metadata.title)}</h2>
-    <p>Test: <strong>${escapeHtml(metadata.testStatus)}</strong> • ${hasPublish ? "Web output" : "Evidence report"}</p>
-    <div class="links"><a class="primary" href="labs/${escapeHtml(week)}/">View Result</a><a href="${escapeHtml(sourceUrl)}">Source</a>${prUrl ? `<a href="${escapeHtml(prUrl)}">Pull Request</a>` : ""}</div>
+    <p>Test: <strong>${escapeHtml(metadata.testStatus)}</strong> • ${liveUrl ? "Live Full-Stack App" : hasPublish ? "Web output" : "Evidence report"}</p>
+    <div class="links"><a class="primary" href="${escapeHtml(resultUrl)}">View Result</a><a href="${escapeHtml(sourceUrl)}">Source</a>${liveUrl ? `<a href="labs/${escapeHtml(week)}/">Review Guide</a>` : ""}${prUrl ? `<a href="${escapeHtml(prUrl)}">Pull Request</a>` : ""}</div>
+${liveUrl ? `    <p>${escapeHtml(metadata.notes || "")}</p>` : ""}
     <small>Version: ${escapeHtml(metadata.submissionTag || "not submitted")}</small>
   </article>`);
 }
