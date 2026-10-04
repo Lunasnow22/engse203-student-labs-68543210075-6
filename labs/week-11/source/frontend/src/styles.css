@@ -58,6 +58,8 @@ input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="tr
 .detail-card dl { display:grid; gap:.75rem; }
 .detail-card dl div { display:grid; grid-template-columns:minmax(7rem,.35fr) 1fr; gap:.75rem; border-bottom:1px solid #e5edf6; padding-bottom:.6rem; }
 .detail-card dd { margin:0; overflow-wrap:anywhere; }
+.status-edit { max-width:30rem; margin-block:1.5rem; }
+.status-edit button:disabled { opacity:.55; cursor:not-allowed; }
 .prose { max-width:58rem; }
 .site-footer { padding:1rem 0; color:#dbe9f8; background:var(--navy); }
 .subtle-empty { color:var(--muted); padding:1rem; }
