@@ -2,6 +2,7 @@
 **/dist/
 **/.env
 **/.env.*
+!labs/week-11/source/api/.env.example
 .DS_Store
 Thumbs.db
 .vscode/

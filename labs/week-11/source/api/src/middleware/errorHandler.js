@@ -32,6 +32,6 @@ export function errorHandler(err, req, res, next) {
   res.status(status).json({
     error: status >= 500 ? 'เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์' : err.message,
     // ส่ง stack เฉพาะตอนพัฒนา — production ห้ามเปิดเผยโครงสร้างภายใน
-    ...(config.isProduction ? {} : { stack: err.stack?.split('\n').slice(0, 3) }),
+    ...(config.isProd ? {} : { stack: err.stack?.split('\n').slice(0, 3) }),
   });
 }

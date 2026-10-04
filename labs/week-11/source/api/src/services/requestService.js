@@ -20,6 +20,24 @@ const DB_FILE = process.env.DB_FILE ?? path.join(API_ROOT, 'data', 'campus.db');
 const SCHEMA_FILE = path.join(API_ROOT, 'data', 'schema.sql');
 
 let db;
+let driver = 'sqlite';
+
+async function openDatabase() {
+  if (config.tursoUrl) {
+    if (!config.tursoToken) throw new Error('TURSO_AUTH_TOKEN is required when TURSO_DATABASE_URL is set');
+    const url = new URL(config.tursoUrl);
+    if (!['libsql:', 'https:'].includes(url.protocol)) {
+      throw new Error('TURSO_DATABASE_URL must use libsql:// or https://');
+    }
+    const { default: Database } = await import('libsql');
+    const connection = new Database(config.tursoUrl, { authToken: config.tursoToken });
+    driver = 'turso';
+    return connection;
+  }
+  if (config.tursoToken) throw new Error('TURSO_DATABASE_URL is required when TURSO_AUTH_TOKEN is set');
+  driver = 'sqlite';
+  return new DatabaseSync(DB_FILE);
+}
 
 /**
  * คืนข้อมูลในรูปแบบเดียวกับที่ API เคยส่งตั้งแต่ Week 05
@@ -38,13 +56,16 @@ const SELECT_SHAPE = `
   JOIN users u ON u.id = r.requester_id`;
 
 export async function loadSeed() {
-  db = new DatabaseSync(DB_FILE);
+  db = await openDatabase();
   db.exec('PRAGMA foreign_keys = ON');   // ⚠ ต้องเปิดทุกครั้งที่เปิดฐานข้อมูล
   // ถ้ายังไม่มีตาราง (ไฟล์ฐานข้อมูลใหม่) ให้สร้างจาก schema.sql
   const ready = db.prepare(
     "SELECT COUNT(*) c FROM sqlite_master WHERE type='table' AND name='requests'"
   ).get().c;
   if (!ready && existsSync(SCHEMA_FILE)) {
+    // schema.sql contains DROP TABLE: only seed a completely empty database.
+    const existing = db.prepare("SELECT COUNT(*) c FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().c;
+    if (existing > 0) throw new Error('Database contains existing tables; refusing to reset it with schema.sql');
     db.exec(readFileSync(SCHEMA_FILE, 'utf8'));
   }
 }
@@ -59,9 +80,9 @@ export function getDbStatus() {
   try {
     if (!db) return { connected: false, reason: 'ยังไม่ได้เปิดฐานข้อมูล' };
     const n = db.prepare("SELECT COUNT(*) c FROM sqlite_master WHERE type='table'").get().c;
-    return { connected: true, driver: 'sqlite', tables: n };
+    return { connected: true, driver, tables: n };
   } catch (e) {
-    return { connected: false, reason: e.message };
+    return { connected: false, reason: config.isProd ? 'Database unavailable' : e.message };
   }
 }
 
@@ -73,6 +94,16 @@ export function findAll({ status } = {}) {
 
 export function findById(id) {
   return db.prepare(`${SELECT_SHAPE} WHERE r.id = ?`).get(id) ?? null;
+}
+
+export function findUsers() {
+  return db.prepare('SELECT id, name, department FROM users ORDER BY id').all();
+}
+
+export function findRequestsByUser(id) {
+  return db.prepare(
+    'SELECT id, request_type AS requestType, status FROM requests WHERE requester_id = ? ORDER BY id'
+  ).all(id);
 }
 
 /** สร้างรหัสคำร้องถัดไป เช่น REQ-006 */
