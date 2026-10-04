@@ -9,7 +9,7 @@
     "dev": "node --disable-warning=ExperimentalWarning --watch --env-file=.env src/server.js",
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
     "check": "node scripts/check-project.mjs",
-    "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.js\"",
+    "test": "node --disable-warning=ExperimentalWarning --import ./tests/setup.mjs --test \"tests/*.test.js\"",
     "db:setup": "node --disable-warning=ExperimentalWarning scripts/setup-db.mjs",
     "db:reset": "node --disable-warning=ExperimentalWarning scripts/setup-db.mjs --force"
   },
@@ -17,10 +17,11 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.1.0",
+    "libsql": "^0.5.29",
     "morgan": "^1.12.1"
   },
   "devDependencies": {
     "supertest": "^7.2.2",
-    "vitest": "^2.1.0"
+    "vitest": "^5.0.2"
   }
 }

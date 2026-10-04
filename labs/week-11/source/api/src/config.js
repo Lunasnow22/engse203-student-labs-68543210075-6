@@ -22,5 +22,7 @@ export const config = {
   corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
   dbFile:     process.env.DB_FILE ?? path.join(API_ROOT, 'data', 'campus.db'),
   schemaFile: path.join(API_ROOT, 'data', 'schema.sql'),
+  tursoUrl:   process.env.TURSO_DATABASE_URL?.trim() ?? '',
+  tursoToken: process.env.TURSO_AUTH_TOKEN?.trim() ?? '',
   staticDir:  process.env.STATIC_DIR ?? path.join(API_ROOT, '..', 'frontend', 'dist'),
 };

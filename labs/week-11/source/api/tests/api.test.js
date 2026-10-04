@@ -10,6 +10,19 @@ before(async () => { await loadSeed(); app = createApp(); });
 const valid = { requesterName: 'ทดสอบ อัตโนมัติ', requestType: 'แจ้งซ่อม',
   location: 'C3-401', details: 'รายละเอียดยาวพอสมควรจริง', priority: 'normal' };
 
+test('users and requests share the same database connection', async () => {
+  const name = 'Turso integration audit';
+  const created = await request(app).post('/api/requests').send({ ...valid, requesterName: name });
+  assert.equal(created.status, 201);
+  const users = await request(app).get('/api/users');
+  assert.equal(users.status, 200);
+  const user = users.body.find((item) => item.name === name);
+  assert.ok(user);
+  const requests = await request(app).get(`/api/users/${user.id}/requests`);
+  assert.equal(requests.status, 200);
+  assert.ok(requests.body.some((item) => item.id === created.body.id));
+});
+
 describe('GET /api/requests', () => {
   test('คืน array จากฐานข้อมูล พร้อม 200', async () => {
     const r = await request(app).get('/api/requests');
