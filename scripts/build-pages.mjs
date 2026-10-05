@@ -62,7 +62,7 @@ for (const week of labs) {
     <div class="card-top"><span class="week">${escapeHtml(week)}</span><span class="status">${escapeHtml(statusLabels[metadata.status] ?? metadata.status)}</span></div>
     <h2>${escapeHtml(metadata.title)}</h2>
     <p>Test: <strong>${escapeHtml(metadata.testStatus)}</strong> • ${liveUrl ? "Live Full-Stack App" : hasPublish ? "Web output" : "Evidence report"}</p>
-    <div class="links"><a class="primary" href="${escapeHtml(resultUrl)}">View Result</a><a href="${escapeHtml(sourceUrl)}">Source</a>${liveUrl ? `<a href="labs/${escapeHtml(week)}/">Review Guide</a>` : ""}${prUrl ? `<a href="${escapeHtml(prUrl)}">Pull Request</a>` : ""}</div>
+    <div class="links"><a class="primary" href="${escapeHtml(resultUrl)}">View Result</a><a href="${escapeHtml(sourceUrl)}">Source</a>${liveUrl && week !== "week-11" ? `<a href="labs/${escapeHtml(week)}/">Review Guide</a>` : ""}${prUrl ? `<a href="${escapeHtml(prUrl)}">Pull Request</a>` : ""}</div>
 ${liveUrl ? `    <p>${escapeHtml(metadata.notes || "")}</p>` : ""}
     <small>Version: ${escapeHtml(metadata.submissionTag || "not submitted")}</small>
   </article>`);
