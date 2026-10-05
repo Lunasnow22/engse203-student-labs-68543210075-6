@@ -49,7 +49,7 @@ export function validateRequestInput(input) {
   ];
   return errors.filter(Boolean);
 
-  const errors = [];
+    errors = [];
   if (readText(input.requesterName).length < MIN_NAME) {
     errors.push(`ชื่อผู้แจ้งต้องมีอย่างน้อย ${MIN_NAME} ตัวอักษร`);
   }

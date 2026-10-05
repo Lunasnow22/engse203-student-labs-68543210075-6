@@ -14,10 +14,16 @@ import { verifyPassword } from '../utils/password.js';
  *   ⚠ ห้ามใส่รหัสผ่านหรือ hash ลงใน payload — payload อ่านได้ทุกคน
  */
 export function login(email, password) {
-  return null;
+  const user = findUserByEmail(email);
+  if (!user || user.role !== 'staff' || !verifyPassword(password, user.passwordHash)) {
+    return null;
+  }
+  const payload = { sub: String(user.id), name: user.name, role: user.role };
+  const token = jwt.sign(payload, config.jwtSecret, { expiresIn: config.jwtExpiresIn });
+  return { token, user: { id: user.id, name: user.name, role: user.role } };
 }
 
 /** ตรวจ token — ถูกต้องคืน payload · ปลอม/หมดอายุ โยน error (ใช้ jwt.verify) */
 export function verifyToken(token) {
-  throw new Error('TODO W13-LOGIN: ยังไม่ได้เขียน verifyToken');
+  return jwt.verify(token, config.jwtSecret);
 }
