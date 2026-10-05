@@ -149,5 +149,20 @@
     "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-11/labs/week-11/source",
     "hasPublish": true,
     "sourceEntries": 13
+  },
+  {
+    "week": "week-12",
+    "title": "Testing & Debugging (Vitest, Supertest & Coverage)",
+    "status": "submitted",
+    "originalRepoUrl": "https://github.com/se-rmutl/engse203-lab/tree/eeb1c7440633ef027053c34f16c388a85e11411f/labs/week-12-testing-debugging/lab12/starter",
+    "originalCommit": "eeb1c7440633ef027053c34f16c388a85e11411f",
+    "pullRequestUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/pull/32",
+    "submissionTag": "lab-12-submission-v1",
+    "testStatus": "pass",
+    "notes": "",
+    "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-12/",
+    "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-12/labs/week-12/source",
+    "hasPublish": true,
+    "sourceEntries": 17
   }
 ]

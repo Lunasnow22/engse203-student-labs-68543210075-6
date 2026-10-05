@@ -1,101 +1,81 @@
-# Campus Service — ระบบ Full-Stack (ENGSE203 Week 11)
+# LAB 12 — การทดสอบและการแก้ไขข้อผิดพลาด
 
-ระบบรับคำร้องขอใช้บริการภายในมหาวิทยาลัย · **React + Express API + SQLite** ทำงานครบวงจร
+ENGSE203 · Week 12 · CP44–CP47 · Student ID 68543210075-6
 
-## สถาปัตยกรรม 3 ชั้น
+เริ่มจาก starter ของอาจารย์สำหรับ Week 12 และแก้บั๊ก 4 เรื่อง พร้อมทดสอบด้วย Vitest และ Supertest
 
-```
-┌─────────────┐   HTTP    ┌──────────────┐   SQL    ┌───────────┐
-│  React      │ ────────► │  Express API │ ───────► │  SQLite   │
-│  (frontend) │ ◄──────── │  (api)       │ ◄─────── │  campus.db│
-└─────────────┘   JSON    └──────────────┘   rows   └───────────┘
-   พอร์ต 5173              พอร์ต 3001              ไฟล์ในเครื่อง
-```
+## ผลตรวจ
 
-| ชั้น | หน้าที่ | โฟลเดอร์ |
-|---|---|---|
-| Frontend | หน้าจอผู้ใช้ · เรียก API | `frontend/` |
-| API | route · controller · service | `api/src/` |
-| Database | เก็บข้อมูลถาวร | `api/data/campus.db` |
+ตรวจในเครื่องวันที่ 5 ตุลาคม 2026 ด้วย Node.js 24.20.0:
 
-## วิธีรัน (development)
+- API: 47 tests ผ่านทั้งหมด
+- Frontend: 2 tests ผ่านทั้งหมด
+- Checker: 22/22 (ในห้อง 20/20 และ Challenge 2/2)
+- API statements coverage: 88.59% (เกณฑ์ 85%)
+- Branches 80.45%, functions 91.42%, lines 90.27%
 
-```bash
-# ชั้นฐานข้อมูล + API
-cd api
-npm install
-cp .env.example .env
-npm run db:setup      # สร้าง campus.db จาก schema.sql
-npm run dev           # API ที่ http://localhost:3001
+## ติดตั้งและตรวจงาน
 
-# ชั้น frontend (อีก terminal)
-cd frontend
-npm install
-npm run dev           # React ที่ http://localhost:5173
+รันจาก `labs/week-12/source`:
+
+```sh
+npm ci --prefix api
+npm ci --prefix frontend
+npm test
+npm run coverage
+node --disable-warning=ExperimentalWarning check-week12.mjs
 ```
 
-## วิธีรัน (production)
+รายงาน coverage อยู่ที่ `api/coverage/index.html` การทดสอบใช้ฐานข้อมูล SQLite `:memory:` และปิดค่า Turso ใน test config จึงไม่แตะฐานข้อมูลจริง การรัน coverage จะไม่ผ่านหาก statements ต่ำกว่า 85%
 
-```bash
-# build แบบเดียวกับ cloud (script อยู่ใน package.json ระดับบนสุด)
-NODE_ENV=production npm install
-NODE_ENV=production npm run build
+## เปิดระบบในเครื่อง
 
-# start — เสิร์ฟทั้งหน้าเว็บและ API จากพอร์ตเดียว
-NODE_ENV=production PORT=10000 npm start
-# เปิด http://localhost:10000
+ฐานข้อมูล `api/data/campus.db` ที่แนบมีผู้ใช้ 4 รายและคำร้อง 5 รายตาม schema ตั้งต้น หากยังไม่มีฐานข้อมูลให้รัน `npm run db:setup --prefix api`
+
+PowerShell:
+
+```powershell
+Copy-Item api/.env.example api/.env
+npm run dev --prefix api
+# เปิด terminal อีกหน้าที่ source แล้วรัน:
+npm run dev --prefix frontend
 ```
 
-| ไฟล์ | ทำให้ production ทำงานอย่างไร |
+เปิด Frontend ตาม URL ที่ Vite แสดง (ปกติ http://localhost:5173) และ API ที่ http://localhost:3001
+
+## เอกสารและเทสต์ที่ส่ง
+
+| CP | ไฟล์ / หลักฐาน |
 |---|---|
-| `frontend/.env.production` | `VITE_API_BASE_URL=` ว่าง → frontend เรียก `/api/...` บนโดเมนเดียวกัน |
-| `api/src/app.js` | production เสิร์ฟ `frontend/dist` · path ที่ไม่ใช่ `/api` ได้ index.html |
-| `package.json` | `build` ใช้ `--include=dev` เพราะ cloud ตั้ง NODE_ENV=production ตั้งแต่ build |
+| CP44 | [TEST_CASES.md](TEST_CASES.md): 12 กรณี มีค่าขอบและข้อมูลผิดรูปแบบ |
+| CP45 | [unit tests](api/tests/unit/requestValidator.test.js): ทดสอบ validator และค่าขอบ 9/10/11 ตัวอักษร |
+| CP46 | [integration tests](api/tests/integration/requests.api.test.js): GET/POST/PUT/DELETE และข้อผิดพลาด |
+| CP47 | [frontend tests](frontend/src/utils/requestSummary.test.js), regression tests และ [DEBUG_LOG.md](DEBUG_LOG.md) |
+| Challenge | [system tests](api/tests/integration/system.api.test.js), [error tests](api/tests/integration/errors.api.test.js), coverage ≥85% และ workflow ที่ root `.github/workflows/check.yml` |
 
-## Live Demo
+## บั๊กที่แก้
 
-🔗 (ใส่ URL หลัง deploy ขึ้น Render)
+1. รายละเอียด 10 ตัวอักษรพอดีต้องผ่าน: ใช้ `< MIN_DETAILS` แทน `<=`
+2. ลบรายการกลางแล้วเพิ่มใหม่: สร้าง ID จากรหัสล่าสุด แทนจำนวนแถว
+3. Dashboard: นับสถานะ `in-progress` ให้ตรงกับ API
+4. PUT คำร้องที่ไม่มี: ตรวจผลลัพธ์ว่างก่อนใช้ `.id` และตอบ 404
 
-หมายเหตุ: Render free tier — เปิดครั้งแรกช้า 30–60 วินาที · ข้อมูลที่เพิ่มจะกลับเป็นค่าตั้งต้นเมื่อ restart
+## CI และการส่ง
 
-## ตรวจสุขภาพระบบ
+GitHub Actions รัน `npm test` และ coverage เมื่อ push/เปิด PR โดยใช้ Node 24 และฐานข้อมูลทดสอบในหน่วยความจำ รายงาน coverage ของแต่ละรอบดาวน์โหลดได้จาก Actions artifacts
 
-```bash
-curl http://localhost:3001/api/health
-# { "status": "ok", "env": "...", "database": { "connected": true, ... } }
-```
+- Branch: `lab/week-12` ตาม Repository Contract
+- Tag: `lab-12-submission-v1`
+- ส่ง Pages Hub + PR URL + Tag/Commit ตาม Student Repository
+- หน้า Pages เป็นรายงานสำหรับตรวจงาน พร้อมรายงาน coverage ไม่ได้รัน Express หรือฐานข้อมูลในเบราว์เซอร์
 
-## Environment Variables
+## เตรียมอธิบายให้อาจารย์
 
-| ตัวแปร | ค่าเริ่มต้น | ความหมาย |
-|---|---|---|
-| `NODE_ENV` | development | สภาพแวดล้อม |
-| `PORT` | 3001 | พอร์ต API |
-| `CORS_ORIGIN` | http://localhost:5173 | ที่อยู่ frontend ที่อนุญาต |
-| `DB_FILE` | api/data/campus.db | ไฟล์ฐานข้อมูล |
+- ค่าขอบ 10 ตัวช่วยตรวจ off-by-one ที่การทดสอบ 9 กับ 11 อาจไม่พบ
+- `beforeEach(loadSeed)` แยกฐานข้อมูลของแต่ละ test จึงไม่ขึ้นกับลำดับการรัน
+- Network แสดง `in-progress` ถูกแล้ว จึงตรวจเงื่อนไขนับสถานะฝั่ง frontend
+- Coverage บอกว่าโค้ดถูกเรียก แต่ยังต้องมี assertions ที่ตรวจพฤติกรรมถูกต้อง
 
-## API Endpoints
+## การใช้ AI
 
-ดู `API_CONTRACT.md` สำหรับรายละเอียดครบ · สรุป: `GET/POST/PUT/DELETE /api/requests` · `GET /api/health`
-
-## การตัดสินใจด้านการออกแบบ
-
-- **แยก 3 ชั้นชัดเจน** — เปลี่ยนแหล่งข้อมูลได้โดยกระทบชั้นเดียว (พิสูจน์มา 4 ครั้งใน Week 05–10)
-- **เลือก SQLite** — ข้อมูลมีโครงและความสัมพันธ์ชัด · ดู `DATABASE_CHOICES.md`
-- **config รวมศูนย์** — ไม่ hardcode · แยก dev/production ด้วย `NODE_ENV`
-
-## การทดสอบ (สัปดาห์ 12)
-
-```bash
-npm install --prefix api && npm install --prefix frontend
-npm test                 # api (Vitest) + frontend (Vitest)
-npm run coverage         # รายงานว่าบรรทัดไหนยังไม่มี test วิ่งผ่าน → api/coverage/index.html
-```
-
-| โฟลเดอร์ | ชนิด test | ทดสอบอะไร |
-|---|---|---|
-| `api/tests/unit/` | unit | pure function เช่น `validators/requestValidator.js` — ไม่ต้องเปิด server |
-| `api/tests/integration/` | integration | ยิง HTTP จริงผ่านทุกชั้น ด้วย supertest บนฐานข้อมูลในหน่วยความจำ (`DB_FILE=:memory:`) |
-| `frontend/src/**/*.test.js` | unit | pure function ฝั่ง React เช่น `utils/requestSummary.js` |
-
-หลักฐานการไล่ปัญหา: `BUG_REPORTS.md` (อาการที่ผู้ใช้แจ้ง) · `DEBUG_LOG.md` (สาเหตุและวิธีแก้) · `TEST_CASES.md` (ตารางกรณีทดสอบ)
+ใช้ Codex ช่วยตรวจไฟล์ ติดตั้ง dependencies เพิ่มเทสต์ health/users/error handling ตั้งค่า CI และจัดหน้าเอกสารส่งงาน ผลข้างต้นมาจากคำสั่งที่รันจริงในเครื่อง ผู้จัดทำควรอ่านเทสต์และอธิบายสาเหตุบั๊กได้ด้วยตนเอง

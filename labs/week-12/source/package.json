@@ -13,7 +13,6 @@
     "check": "node --disable-warning=ExperimentalWarning check-week12.mjs"
   },
   "devDependencies": {
-    "@rolldown/binding-darwin-arm64": "^1.2.12",
     "supertest": "^7.2.2"
   }
 }
