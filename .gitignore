@@ -1,10 +1,16 @@
 **/node_modules/
 **/dist/
+**/coverage/
+!labs/week-12/publish/coverage/
+!labs/week-12/publish/coverage/**
+!docs/labs/week-12/coverage/
+!docs/labs/week-12/coverage/**
 **/.env
 **/.env.*
 !labs/week-11/source/api/.env.example
 !labs/week-11/source/frontend/.env.example
 !labs/week-11/source/frontend/.env.production
+!labs/week-12/source/api/.env.example
 .DS_Store
 Thumbs.db
 .vscode/
