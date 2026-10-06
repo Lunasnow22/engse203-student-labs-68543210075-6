@@ -1,8 +1,10 @@
 import { config } from './config.js';
 import { createApp } from './app.js';
 import { loadSeed } from './services/requestService.js';
+import { configureProductionStaff } from './services/productionStaff.js';
 
 await loadSeed();
+if (config.isProd) configureProductionStaff();
 const app = createApp();
 
 app.listen((config.port ?? 3001), (err) => {

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useSession } from '../services/authSession.js';
 
 function RequestCard({ request, onDeleteRequest }) {
+  const session = useSession();
   return (
     <article className="request-card">
       <div>
@@ -10,9 +12,9 @@ function RequestCard({ request, onDeleteRequest }) {
         <p>{request.details}</p>
         <p><span className={`badge ${request.status}`}>{request.status}</span> · {request.priority}</p>
       </div>
-      <button className="button danger" type="button" onClick={() => onDeleteRequest(request.id)} aria-label={`ลบคำร้อง ${request.id}`}>
+      {session?.user?.role === 'staff' && <button className="button danger" type="button" onClick={() => onDeleteRequest(request.id)} aria-label={`ลบคำร้อง ${request.id}`}>
         ลบ
-      </button>
+      </button>}
     </article>
   );
 }

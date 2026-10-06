@@ -1,125 +1,69 @@
-# Campus Service — ระบบ Full-Stack (ENGSE203 Week 11)
+# LAB 13 — Quality & Security
 
-ระบบรับคำร้องขอใช้บริการภายในมหาวิทยาลัย · **React + Express API + SQLite** ทำงานครบวงจร
+ENGSE203 · 68543210075-6 · CP48–CP52 และ Challenge
 
-## สถาปัตยกรรม 3 ชั้น
+[เปิดเว็บจริง](https://campus-service-week13.onrender.com/) · [Health Check](https://campus-service-week13.onrender.com/api/health) · [PR #34](https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/pull/34)
 
+## ติดตั้งและทดสอบ
+จาก `labs/week-13/source` ใช้ Node.js 24:
+```sh
+npm install --prefix api
+npm install --prefix frontend
+npm test
+npm run coverage
+node --disable-warning=ExperimentalWarning check-week13.mjs
+node --disable-warning=ExperimentalWarning check-week12.mjs --inclass
 ```
-┌─────────────┐   HTTP    ┌──────────────┐   SQL    ┌───────────┐
-│  React      │ ────────► │  Express API │ ───────► │  SQLite   │
-│  (frontend) │ ◄──────── │  (api)       │ ◄─────── │  campus.db│
-└─────────────┘   JSON    └──────────────┘   rows   └───────────┘
-   พอร์ต 5173              พอร์ต 3001              ไฟล์ในเครื่อง
+ผลวันที่ 6 ตุลาคม 2026: API **82 tests**, frontend **6 tests**, checker **27/27**, regression Week 12 **20/20**; statement coverage **89.82%**. `npm audit` ของ API และ frontend ไม่พบช่องโหว่
+
+## เปิดในเครื่อง
+```sh
+npm run dev --prefix api
+npm run dev --prefix frontend
 ```
+API: http://localhost:3001 · frontend: http://localhost:5173
+ฐานข้อมูลตั้งต้น `api/data/campus.db` มี 5 คำร้องและบัญชีตัวอย่าง หากฐานข้อมูลหาย ระบบสร้างจาก `schema.sql` อัตโนมัติ
+บัญชีเฉพาะ development/test: `staff@rmutl.ac.th` / `staff1234`
+เข้าเมนูเข้าสู่ระบบ แล้วเปิดรายละเอียดคำร้องเพื่อเปลี่ยนสถานะ หรือกดลบจาก Dashboard; ผู้ใช้ทั่วไปดูและสร้างคำร้องได้
 
-| ชั้น | หน้าที่ | โฟลเดอร์ |
-|---|---|---|
-| Frontend | หน้าจอผู้ใช้ · เรียก API | `frontend/` |
-| API | route · controller · service | `api/src/` |
-| Database | เก็บข้อมูลถาวร | `api/data/campus.db` |
-
-## วิธีรัน (development)
-
-```bash
-# ชั้นฐานข้อมูล + API
-cd api
-npm install
-cp .env.example .env
-npm run db:setup      # สร้าง campus.db จาก schema.sql
-npm run dev           # API ที่ http://localhost:3001
-
-# ชั้น frontend (อีก terminal)
-cd frontend
-npm install
-npm run dev           # React ที่ http://localhost:5173
+## โหมด production และ Render
+```sh
+npm run build
 ```
+ตั้ง `NODE_ENV=production`, `JWT_SECRET` เป็นค่าสุ่มส่วนตัว และ `STAFF_PASSWORD` อย่างน้อย 16 ตัวอักษร จากนั้น `npm start`
+PowerShell ใช้ `$env:ชื่อตัวแปร="ค่า"` ก่อนรัน; ห้าม commit ค่าจริง
+ใช้ `api/.env.example` เป็นรายการตัวแปรและเก็บค่าจริงใน `api/.env` ที่ถูก ignore; ค่าว่างใช้ค่าเริ่มต้น ยกเว้น secrets ที่บังคับใน production
 
-## วิธีรัน (production)
+Render Blueprint ใช้ `labs/week-13/source/render.yaml`, branch `lab/week-13`, Free Web Service ชื่อ `campus-service-week13`; Render สุ่ม `JWT_SECRET` และ `STAFF_PASSWORD` ให้เอง
+บัญชีบนเว็บ: `staff@rmutl.ac.th`; เจ้าของดูรหัสผ่านใน Render → Environment → `STAFF_PASSWORD` แล้วกรอกที่หน้า login โดยไม่โพสต์ลง repo/แชต
+ตอน production ระบบแทน hash ของบัญชีตัวอย่างด้วยรหัสส่วนตัวก่อนเปิด server ทำให้ `staff1234` ใช้ไม่ได้
 
-```bash
-# build แบบเดียวกับ cloud (script อยู่ใน package.json ระดับบนสุด)
-NODE_ENV=production npm install
-NODE_ENV=production npm run build
+บริการนี้ใช้ SQLite แยกสำหรับ Week 13 บน Render Free: ข้อมูลเดโมอาจคืนค่าเริ่มต้นเมื่อ restart/redeploy ไม่ได้ใช้ฐานข้อมูล Turso ของ Week 11
+หากต้องการข้อมูลถาวร ให้เตรียม Turso ของ Week 13 ที่มี schema `role/password_hash` แยกต่างหากก่อนตั้ง `TURSO_DATABASE_URL` และ `TURSO_AUTH_TOKEN`
 
-# start — เสิร์ฟทั้งหน้าเว็บและ API จากพอร์ตเดียว (สัปดาห์ 13: production ต้องตั้ง JWT_SECRET ไม่งั้นไม่ยอม start)
-NODE_ENV=production JWT_SECRET=<ค่าสุ่ม> PORT=10000 npm start
-# เปิด http://localhost:10000
-```
-
-| ไฟล์ | ทำให้ production ทำงานอย่างไร |
+## สิ่งที่ส่ง
+| CP | การทำงานและหลักฐาน |
 |---|---|
-| `frontend/.env.production` | `VITE_API_BASE_URL=` ว่าง → frontend เรียก `/api/...` บนโดเมนเดียวกัน |
-| `api/src/app.js` | production เสิร์ฟ `frontend/dist` · path ที่ไม่ใช่ `/api` ได้ index.html |
-| `package.json` | `build` ใช้ `--include=dev` เพราะ cloud ตั้ง NODE_ENV=production ตั้งแต่ build |
+| CP48 | ตรวจชนิดข้อความ, ชื่อ/สถานที่สูงสุด 100, รายละเอียด 10–1000, body 10KB → 413; unit tests ค่าขอบ |
+| CP49 | scrypt salt สุ่ม 16 bytes + key 64 bytes; timingSafeEqual; ปฏิเสธ hash ผิดรูปแบบ |
+| CP50 | POST `/api/auth/login` ออก JWT 2 ชั่วโมง ไม่มี password/hash ใน payload; บัญชีผิดตอบเหมือนกัน |
+| CP51 | PUT/DELETE เฉพาะ staff; ไม่มี/ปลอม/หมดอายุ → 401; role ผิด → 403; GET/POST เปิดสาธารณะ |
+| CP52 | JWT secret ว่างใน production → fail fast; errors ไม่ส่ง stack; `.env.example` ค่าว่าง; secrets ไม่อยู่ใน Git |
+| Challenge | security headers, login ผิด 5 ครั้ง/15 นาที → 429, frontend Bearer token, Render generated secret |
 
-## Live Demo
+- [Test cases](TEST_CASES.md), [Debug log](DEBUG_LOG.md), [Release checklist](RELEASE_CHECKLIST.md)
+- [หลักฐาน](../evidence/README.md) และรายงาน coverage ในหน้า Pages
+- CI: `.github/workflows/week13.yml` ทดสอบและบังคับ statement coverage ≥85%
+- Branch `lab/week-13` ตาม Student Repository; tag `lab-13-submission-v1`
+- A5: LAB13 มี 4 คะแนน; อีก 6 คะแนนมาจาก Final Term Project ซึ่งเป็นงานแยกจาก LAB นี้
 
-🔗 (ใส่ URL หลัง deploy ขึ้น Render)
+## ขอบเขตความปลอดภัย
+- API เป็นผู้ตรวจสิทธิ์จริง การซ่อนปุ่ม frontend เป็นเพียง UX
+- sessionStorage เก็บ token เฉพาะแท็บ; logout และ API ตอบ 401 จะล้าง session แต่ JWT ที่ออกแล้วหมดอายุตามเวลา (ยังไม่มี revoke list)
+- limiter เก็บในหน่วยความจำต่อ IP, reset เมื่อ process restart และไม่ได้ใช้ร่วมกันข้าม instance; เหมาะกับ LAB instance เดียว ก่อน production จริงควรใช้ shared store และกำหนด trusted proxy ตามระบบ
+- React แสดงข้อความด้วย escaping ไม่ใช้ dangerouslySetInnerHTML กับข้อมูลผู้ใช้
 
-หมายเหตุ: Render free tier — เปิดครั้งแรกช้า 30–60 วินาที · ข้อมูลที่เพิ่มจะกลับเป็นค่าตั้งต้นเมื่อ restart
+## อธิบายได้ก่อนส่ง
+401 คือยังยืนยันตัวตนไม่ได้; 403 คือยืนยันแล้วแต่ไม่มีสิทธิ์. Hash ใช้ตรวจรหัสโดยไม่เก็บรหัสจริง; salt สุ่มทำให้รหัสเดียวกันได้ hash ต่างกัน. JWT ลงลายเซ็นแต่ payload ไม่ได้เข้ารหัสจึงห้ามใส่ความลับ. ต้องตรวจ API แม้ frontend ตรวจแล้ว เพราะเรียก API โดยตรงได้
 
-## ตรวจสุขภาพระบบ
-
-```bash
-curl http://localhost:3001/api/health
-# { "status": "ok", "env": "...", "database": { "connected": true, ... } }
-```
-
-## Environment Variables
-
-| ตัวแปร | ค่าเริ่มต้น | ความหมาย |
-|---|---|---|
-| `NODE_ENV` | development | สภาพแวดล้อม |
-| `PORT` | 3001 | พอร์ต API |
-| `CORS_ORIGIN` | http://localhost:5173 | ที่อยู่ frontend ที่อนุญาต |
-| `DB_FILE` | api/data/campus.db | ไฟล์ฐานข้อมูล |
-| `JWT_SECRET` | (dev: ค่าสำหรับพัฒนา) | secret สำหรับเซ็น JWT · production ไม่ตั้ง = ไม่ยอม start |
-
-## API Endpoints
-
-ดู `API_CONTRACT.md` สำหรับรายละเอียดครบ · สรุป: `GET/POST/PUT/DELETE /api/requests` · `GET /api/health`
-
-## การตัดสินใจด้านการออกแบบ
-
-- **แยก 3 ชั้นชัดเจน** — เปลี่ยนแหล่งข้อมูลได้โดยกระทบชั้นเดียว (พิสูจน์มา 4 ครั้งใน Week 05–10)
-- **เลือก SQLite** — ข้อมูลมีโครงและความสัมพันธ์ชัด · ดู `DATABASE_CHOICES.md`
-- **config รวมศูนย์** — ไม่ hardcode · แยก dev/production ด้วย `NODE_ENV`
-
-## การทดสอบ (สัปดาห์ 12)
-
-```bash
-npm install --prefix api && npm install --prefix frontend
-npm test                 # api (Vitest) + frontend (Vitest)
-npm run coverage         # รายงานว่าบรรทัดไหนยังไม่มี test วิ่งผ่าน → api/coverage/index.html
-```
-
-| โฟลเดอร์ | ชนิด test | ทดสอบอะไร |
-|---|---|---|
-| `api/tests/unit/` | unit | pure function เช่น `validators/requestValidator.js` — ไม่ต้องเปิด server |
-| `api/tests/integration/` | integration | ยิง HTTP จริงผ่านทุกชั้น ด้วย supertest บนฐานข้อมูลในหน่วยความจำ (`DB_FILE=:memory:`) |
-| `frontend/src/**/*.test.js` | unit | pure function ฝั่ง React เช่น `utils/requestSummary.js` |
-
-หลักฐานการไล่ปัญหา: `BUG_REPORTS.md` (อาการที่ผู้ใช้แจ้ง) · `DEBUG_LOG.md` (สาเหตุและวิธีแก้) · `TEST_CASES.md` (ตารางกรณีทดสอบ)
-
-
-## ความปลอดภัย (สัปดาห์ 13)
-
-| เรื่อง | ไฟล์ |
-|---|---|
-| validation เข้มขึ้น (ชนิดข้อมูล · ความยาวสูงสุด · body ≤ 10kb) | `api/src/validators/requestValidator.js` · `api/src/app.js` |
-| รหัสผ่านเก็บเป็น hash (scrypt) | `api/src/utils/password.js` |
-| เข้าสู่ระบบด้วย JWT | `api/src/services/authService.js` · `POST /api/auth/login` |
-| สิทธิ์: GET/POST ทุกคน · PUT/DELETE เฉพาะเจ้าหน้าที่ | `api/src/middleware/auth.js` · `api/src/routes/requestRoutes.js` |
-| secret มาจาก env · production ไม่มี secret = ไม่ start | `api/src/config.js` · `api/.env.example` |
-
-**บัญชีเจ้าหน้าที่สำหรับพัฒนา** — `staff@rmutl.ac.th` / `staff1234` (อยู่ใน schema.sql เป็น hash)
-⚠ ก่อนใช้งานจริง: สร้างบัญชีใหม่ด้วย `npm run create-staff --prefix api -- <อีเมล> <รหัสผ่าน>` และตั้ง `JWT_SECRET` ใน Environment ของ Render
-
-```bash
-curl -X POST localhost:3001/api/auth/login -H "Content-Type: application/json" \
-  -d '{"email":"staff@rmutl.ac.th","password":"staff1234"}'
-# → { "token": "eyJ...", "user": { ... } }
-
-curl -X PUT localhost:3001/api/requests/REQ-001 -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" -d '{"status":"completed"}'
-```
+ใช้ Codex ช่วยตรวจและเติม implementation, tests, เอกสาร และ deployment; ผลในหน้านี้มาจากคำสั่งทดสอบจริง

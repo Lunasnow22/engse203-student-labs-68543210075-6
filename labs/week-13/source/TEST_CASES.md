@@ -20,3 +20,27 @@
 | TC-12 | ลำดับการทำงาน | ลบ REQ-002 แล้วเพิ่มใหม่ | 201 · รหัสไม่ซ้ำ | integration |
 
 > **ทำไมต้องมีค่าขอบ** — bug ชอบซ่อนตรงขอบ เช่น เขียน `<=` แทน `<` · ทดสอบ 9 · 10 · 11 จะเห็นทันที
+
+
+## Week 13 — Security cases
+| ID | ข้อมูล/ขั้นตอน | ผลที่คาด |
+|---|---|---|
+| S01 | ชื่อ 100 / 101 ตัว | ผ่าน / ปฏิเสธ |
+| S02 | สถานที่ 100 / 101 ตัว | ผ่าน / ปฏิเสธ |
+| S03 | รายละเอียด 1000 / 1001 ตัว | ผ่าน / ปฏิเสธ |
+| S04 | numeric/null/array/object แทนข้อความ | validation error |
+| S05 | JSON body เกิน 10KB | 413 JSON |
+| S06 | scrypt hash สองครั้ง | salt/hash ต่างกัน ตรวจรหัสถูกได้ |
+| S07 | hash format ผิด/hex ไม่ครบ | false ไม่ crash |
+| S08 | staff login ถูก | 200, JWT มี role/exp ไม่มี passwordHash |
+| S09 | email ไม่มี / password ผิด | 401 ข้อความเดียวกัน |
+| S10 | PUT/DELETE ไม่มี/ปลอม/หมดอายุ token | 401 |
+| S11 | requester token PUT/DELETE | 403 |
+| S12 | staff token PUT/DELETE | 200 / 204 |
+| S13 | login ผิด 5 ครั้ง แล้วครั้งที่ 6 ถูก | 429, Retry-After |
+| S14 | เวลาผ่าน 15 นาที | login ได้ใหม่ |
+| S15 | production ไม่มี JWT_SECRET | ไม่เริ่มระบบ |
+| S16 | production malformed JSON | 400 ไม่มี stack |
+| S17 | frontend token + custom header | มี Authorization และ headers ครบ |
+| S18 | API ตอบ 401 | ล้าง session |
+| S19 | production staff1234 / private password | 401 / 200 |

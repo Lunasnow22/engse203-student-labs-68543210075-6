@@ -17,6 +17,9 @@ describe('hashPassword', () => {
 });
 
 describe('verifyPassword', () => {
+  test.each(['scrypt$salt$zz', 'scrypt$salt$', 'scrypt$abc$ff$extra'])('malformed stored hash is rejected: %s', (stored) => {
+    expect(verifyPassword('secret', stored)).toBe(false);
+  });
   test('รหัสผ่านถูก → true', () => {
     expect(verifyPassword('secret-1', hashPassword('secret-1'))).toBe(true);
   });

@@ -16,6 +16,18 @@ const valid = {
 };
 const withField = (patch) => ({ ...valid, ...patch });
 
+describe('CP48 maximum lengths and input types', () => {
+  test.each([['requesterName', 100], ['location', 100], ['details', 1000]])('%s maximum %i', (field, max) => {
+    expect(validateRequestInput(withField({ [field]: 'ก'.repeat(max) }))).toEqual([]);
+    expect(validateRequestInput(withField({ [field]: 'ก'.repeat(max + 1) }))).toHaveLength(1);
+  });
+  test.each(['requesterName', 'location', 'details'])('%s must be text', (field) => {
+    for (const value of [12345678901, null, {}, [], true]) {
+      expect(validateRequestInput(withField({ [field]: value }))[0]).toContain('ต้องเป็นข้อความ');
+    }
+  });
+});
+
 describe('validateRequestInput — ข้อมูลถูกต้อง', () => {
   test('ทุกช่องถูกต้อง → ไม่มี error', () => {
     expect(validateRequestInput(valid)).toEqual([]);
