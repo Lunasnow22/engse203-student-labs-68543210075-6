@@ -2,7 +2,7 @@ function AboutPage() {
   return (
     <section data-testid="page-about">
       <div className="page-heading"><div><p className="eyebrow dark">ABOUT THE LAB</p><h1>เกี่ยวกับระบบ</h1></div></div>
-      <article className="panel prose"><p>Campus Service Request เป็นกรณีศึกษาสำหรับเรียนรู้ React Routing, Effect, Service Layer และ client-side persistence</p><h2>สถาปัตยกรรม</h2><p>Page เรียก Service API ส่วน Service จัดการ seed JSON และ Storage module โดย UI ไม่เข้าถึง browser storage โดยตรง</p><h2>ความเป็นส่วนตัว</h2><p>ข้อมูลใน LAB เป็นข้อมูลสาธิต ห้ามบันทึกข้อมูลส่วนบุคคลจริง รหัสผ่าน token หรือ secret</p></article>
+      <article className="panel prose"><p>Campus Service Request เป็นกรณีศึกษา Week 13 เรื่อง validation การเข้าสู่ระบบ และการกำหนดสิทธิ์</p><h2>สถาปัตยกรรม</h2><p>React เรียก Express API ซึ่งตรวจข้อมูลและสิทธิ์ก่อนทำงานกับ SQLite เจ้าหน้าที่ใช้ JWT เพื่อเปลี่ยนสถานะหรือลบคำร้อง</p><h2>ข้อมูลสาธิต</h2><p>บริการ Free นี้อาจคืนข้อมูลตั้งต้นเมื่อ redeploy ห้ามบันทึกข้อมูลส่วนบุคคลจริง รหัสผ่าน token หรือ secret ในคำร้อง</p></article>
     </section>
   );
 }

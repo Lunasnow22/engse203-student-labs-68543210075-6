@@ -164,5 +164,21 @@
     "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-12/labs/week-12/source",
     "hasPublish": true,
     "sourceEntries": 17
+  },
+  {
+    "week": "week-13",
+    "title": "Quality & Security (Validation, scrypt & JWT)",
+    "status": "submitted",
+    "originalRepoUrl": "https://github.com/se-rmutl/engse203-lab/tree/eeb1c7440633ef027053c34f16c388a85e11411f/labs/week-13-quality-security/lab13/starter",
+    "originalCommit": "eeb1c7440633ef027053c34f16c388a85e11411f",
+    "pullRequestUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/pull/34",
+    "submissionTag": "lab-13-submission-v1",
+    "testStatus": "pass",
+    "notes": "",
+    "liveUrl": "https://campus-service-week13.onrender.com/",
+    "pageUrl": "https://Lunasnow22.github.io/engse203-student-labs-68543210075-6/labs/week-13/",
+    "sourceUrl": "https://github.com/Lunasnow22/engse203-student-labs-68543210075-6/tree/lab/week-13/labs/week-13/source",
+    "hasPublish": true,
+    "sourceEntries": 19
   }
 ]

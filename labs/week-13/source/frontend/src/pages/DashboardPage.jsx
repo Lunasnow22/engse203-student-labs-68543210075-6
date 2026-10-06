@@ -6,7 +6,7 @@ import LoadingState from '../components/LoadingState.jsx';
 import RequestList from '../components/RequestList.jsx';
 import SummaryPanel from '../components/SummaryPanel.jsx';
 import useManualReload from '../hooks/useManualReload.js';
-import { deleteRequest, getRequests, resetRequests } from '../services/requestService.js';
+import { deleteRequest, getRequests } from '../services/requestService.js';
 import { summarizeRequests } from '../utils/requestSummary.js';
 
 function DashboardPage() {
@@ -62,22 +62,12 @@ function DashboardPage() {
     }
   }
 
-  async function handleReset() {
-    if (!window.confirm('ต้องการคืนข้อมูลตัวอย่างเริ่มต้นหรือไม่?')) return;
-    try {
-      setRequests(await resetRequests());
-      setStatusFilter('all');
-      setNotice('คืนข้อมูลตัวอย่างเริ่มต้นแล้ว');
-    } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'คืนข้อมูลไม่สำเร็จ');
-    }
-  }
 
   return (
     <section data-testid="page-dashboard">
       <div className="page-heading">
         <div><p className="eyebrow dark">ROUTED + PERSISTENT</p><h1>Dashboard</h1><p>ติดตามคำร้องและสถานะจากฐานข้อมูล</p></div>
-        
+
       </div>
       {scenario && <p className="lab-scenario" role="status">LAB test scenario: {scenario}</p>}
       {notice && <p className="notice" role="status">{notice}</p>}

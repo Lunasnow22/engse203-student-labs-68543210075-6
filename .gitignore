@@ -14,6 +14,8 @@
 !labs/week-13/source/api/.env.example
 !labs/week-13/source/frontend/.env.example
 !labs/week-13/source/frontend/.env.production
+!labs/week-13/publish/coverage/
+!labs/week-13/publish/coverage/**
 .DS_Store
 Thumbs.db
 .vscode/

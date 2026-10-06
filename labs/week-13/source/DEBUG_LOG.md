@@ -39,3 +39,13 @@
 - **สาเหตุ (ไฟล์:บรรทัด):** `api/src/controllers/requestController.js` ใน `updateRequestStatus` มีบรรทัด log `updated.id` อยู่**ก่อน**การตรวจ `if (!updated)` — เมื่อไม่พบคำร้อง `updated` เป็น null จึงพัง
 - **วิธีแก้:** ย้าย log ไปไว้หลังการตรวจ null
 - **test ที่กัน:** `tests/integration/requests.api.test.js` → "คำร้องที่ไม่มีอยู่ → 404 (ไม่ใช่ 500)"
+
+
+## Week 13 fixes
+1. Validator มีโค้ดเก่าหลัง return และเขียนทับ const: ลบ dead code ใช้ helper ตรวจข้อความ พร้อมค่าขอบสูงสุด
+2. verifyPassword รับ hash ผิดรูปแบบ/ความยาว key ตาม input: ตรวจรูปแบบครบก่อน scrypt และใช้ key length คงที่
+3. PUT/DELETE tests เดิมไม่มี auth: login จริงใน beforeEach พร้อมเก็บ regression เดิม และเพิ่ม 401/403/expired token
+4. Production fallback secret ที่เผยแพร่ใน repo: fail fast เมื่อไม่มี secret หรือใช้ค่า dev
+5. apiClient วาง options หลัง headers ทำให้ headers ถูกทับ: รวม headers หลัง options และทดสอบ Bearer พร้อม custom headers
+6. ปุ่มแก้สถานะไม่มีและปุ่มลบเปิดแก่ทุกคน: เพิ่มหน้า login, status form และแสดงปุ่ม staff; API ตรวจสิทธิ์เสมอ
+7. Production seed มีรหัส staff สาธารณะ: แทน hash ด้วย STAFF_PASSWORD ส่วนตัวก่อนเปิด listener

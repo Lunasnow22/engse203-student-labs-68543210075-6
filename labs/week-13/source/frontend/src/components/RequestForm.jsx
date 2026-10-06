@@ -66,7 +66,7 @@ function RequestForm({ onAddRequest }) {
     <form data-testid="request-form" onSubmit={handleSubmit} noValidate>
       <div className="field">
         <label htmlFor="requesterName">ชื่อผู้แจ้ง</label>
-        <input id="requesterName" name="requesterName" value={form.requesterName} onChange={handleChange} {...inputA11y('requesterName')} />
+        <input id="requesterName" name="requesterName" maxLength={100} value={form.requesterName} onChange={handleChange} {...inputA11y('requesterName')} />
         <FieldError id="requesterName-error" message={errors.requesterName} />
       </div>
       <div className="field">
@@ -81,12 +81,12 @@ function RequestForm({ onAddRequest }) {
       </div>
       <div className="field">
         <label htmlFor="location">สถานที่</label>
-        <input id="location" name="location" value={form.location} onChange={handleChange} {...inputA11y('location')} />
+        <input id="location" name="location" maxLength={100} value={form.location} onChange={handleChange} {...inputA11y('location')} />
         <FieldError id="location-error" message={errors.location} />
       </div>
       <div className="field">
         <label htmlFor="details">รายละเอียด</label>
-        <textarea id="details" name="details" rows="4" value={form.details} onChange={handleChange} {...inputA11y('details')} />
+        <textarea id="details" name="details" maxLength={1000} rows="4" value={form.details} onChange={handleChange} {...inputA11y('details')} />
         <FieldError id="details-error" message={errors.details} />
       </div>
       <fieldset className="field">

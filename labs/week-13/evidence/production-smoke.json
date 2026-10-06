@@ -1,0 +1,14 @@
+{
+  "mode": "local production; isolated in-memory database",
+  "checks": [
+    "production health 200, database connected",
+    "production serves built React app",
+    "public classroom password rejected",
+    "private production staff login 200",
+    "public create 201",
+    "anonymous update 401",
+    "staff update 200",
+    "staff delete 204",
+    "oversized production response 413 without stack"
+  ]
+}
