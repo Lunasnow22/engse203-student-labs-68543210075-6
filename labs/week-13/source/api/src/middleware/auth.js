@@ -10,13 +10,13 @@ import { verifyToken } from '../services/authService.js';
  */
 export function authenticate(req, res, next) {
   const header = req.get('Authorization') ?? '';
-  const [scheme, token] = header.split(' ');               
-  if (scheme !== 'Bearer' || !token) {
+  const match = /^Bearer ([^\s]+)$/i.exec(header);
+  if (!match) {
     res.set('WWW-Authenticate', 'Bearer');
     return res.status(401).json({ error: 'ต้องเข้าสู่ระบบก่อน' });
   }
   try {
-    req.user = verifyToken(token);   // ผ่าน → แนบข้อมูลผู้ใช้ไว้ให้ middleware/controller ถัดไป
+    req.user = verifyToken(match[1]);
     next();
   } catch {
     res.set('WWW-Authenticate', 'Bearer error="invalid_token"');

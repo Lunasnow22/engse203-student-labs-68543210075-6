@@ -25,5 +25,5 @@ export function login(email, password) {
 
 /** ตรวจ token — ถูกต้องคืน payload · ปลอม/หมดอายุ โยน error (ใช้ jwt.verify) */
 export function verifyToken(token) {
-  return jwt.verify(token, config.jwtSecret);
+  return jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] });
 }

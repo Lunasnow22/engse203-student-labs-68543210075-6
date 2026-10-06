@@ -11,6 +11,9 @@
 !labs/week-11/source/frontend/.env.example
 !labs/week-11/source/frontend/.env.production
 !labs/week-12/source/api/.env.example
+!labs/week-13/source/api/.env.example
+!labs/week-13/source/frontend/.env.example
+!labs/week-13/source/frontend/.env.production
 .DS_Store
 Thumbs.db
 .vscode/

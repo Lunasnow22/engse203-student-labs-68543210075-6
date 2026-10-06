@@ -6,8 +6,8 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
-    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning --watch src/server.js",
+    "start": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/server.js",
     "check": "node scripts/check-project.mjs",
     "test": "vitest run",
     "db:setup": "node --disable-warning=ExperimentalWarning scripts/setup-db.mjs",

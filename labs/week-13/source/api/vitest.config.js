@@ -15,6 +15,8 @@ export default defineConfig({
     env: {
       DB_FILE: ':memory:',
       NODE_ENV: 'test',
+      TURSO_DATABASE_URL: '',
+      TURSO_AUTH_TOKEN: '',
     },
     coverage: {
       provider: 'v8',

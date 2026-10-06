@@ -4,8 +4,13 @@ import ErrorState from '../components/ErrorState.jsx';
 import LoadingState from '../components/LoadingState.jsx';
 import useManualReload from '../hooks/useManualReload.js';
 import { getRequestById } from '../services/requestService.js';
+import { apiFetch } from '../services/apiClient.js';
+import { useSession } from '../services/authSession.js';
 
 function RequestDetailPage() {
+  const session = useSession();
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState('');
   const { requestId } = useParams();
   const [loadState, setLoadState] = useState('loading');
   const [request, setRequest] = useState(null);
@@ -40,6 +45,22 @@ function RequestDetailPage() {
           <h2>{request.requestType}</h2>
           <dl><div><dt>ID</dt><dd>{request.id}</dd></div><div><dt>ผู้แจ้ง</dt><dd>{request.requesterName}</dd></div><div><dt>สถานที่</dt><dd>{request.location}</dd></div><div><dt>รายละเอียด</dt><dd>{request.details}</dd></div><div><dt>ความเร่งด่วน</dt><dd>{request.priority}</dd></div><div><dt>สถานะ</dt><dd>{request.status}</dd></div></dl>
           <Link to="/">กลับ Dashboard</Link>
+          {session?.user?.role === 'staff' && <form className="status-form" onSubmit={async (event) => {
+            event.preventDefault();
+            const status = new FormData(event.currentTarget).get('status');
+            setSaving(true); setNotice('');
+            try {
+              await apiFetch(`/api/requests/${encodeURIComponent(requestId)}`, { method: 'PUT', body: JSON.stringify({ status }) });
+              setRequest((previous) => ({ ...previous, status }));
+              setNotice('บันทึกสถานะเรียบร้อยแล้ว');
+            } catch (err) { setNotice(err.message); }
+            finally { setSaving(false); }
+          }}>
+            <label>สถานะคำร้อง<select name="status" defaultValue={request.status} disabled={saving}>
+              <option value="pending">รอดำเนินการ</option><option value="in-progress">กำลังดำเนินการ</option><option value="completed">เสร็จสิ้น</option>
+            </select></label><button className="button primary" disabled={saving}>บันทึกสถานะ</button>
+          </form>}
+          {notice && <p role="status">{notice}</p>}
         </article>
       )}
     </section>

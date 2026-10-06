@@ -21,10 +21,11 @@ export function hashPassword(plain) {
 }
 
 export function verifyPassword(plain, stored) {
-  const [scheme, salt, hashHex] = String(stored ?? '').split('$');
-  if (scheme !== 'scrypt' || !salt || !hashHex) return false; 
+  if (typeof plain !== 'string' || typeof stored !== 'string' ||
+      !/^scrypt\$[0-9a-f]{32}\$[0-9a-f]{128}$/.test(stored)) return false;
+  const [, salt, hashHex] = stored.split('$');
   const expected = Buffer.from(hashHex, 'hex');
-  const actual = scryptSync(String(plain), salt, expected.length);
+  const actual = scryptSync(plain, salt, KEY_LENGTH);
   // timingSafeEqual ใช้เวลาเท่ากันไม่ว่าจะผิดตัวที่เท่าไร — กันการเดาจากเวลาที่ใช้ตอบ
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }

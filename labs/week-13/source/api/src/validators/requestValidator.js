@@ -32,10 +32,6 @@ function checkText(value, label, { min = 1, max }) {
   return null;
 }
 
-function readText(value) {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
 export function validateRequestInput(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
     return ['ต้องส่งข้อมูลคำร้องมาด้วย'];
@@ -49,23 +45,6 @@ export function validateRequestInput(input) {
   ];
   return errors.filter(Boolean);
 
-    errors = [];
-  if (readText(input.requesterName).length < MIN_NAME) {
-    errors.push(`ชื่อผู้แจ้งต้องมีอย่างน้อย ${MIN_NAME} ตัวอักษร`);
-  }
-  if (!REQUEST_TYPES.includes(input.requestType)) {
-    errors.push('ประเภทคำร้องไม่ถูกต้อง');
-  }
-  if (!readText(input.location)) {
-    errors.push('กรุณาระบุสถานที่');
-  }
-  if (readText(input.details).length < MIN_DETAILS) {
-    errors.push(`รายละเอียดต้องมีอย่างน้อย ${MIN_DETAILS} ตัวอักษร`);
-  }
-  if (!PRIORITIES.includes(input.priority)) {
-    errors.push('ความเร่งด่วนต้องเป็น normal หรือ urgent');
-  }
-  return errors;
 }
 
 /** สถานะที่ PUT /api/requests/:id รับได้ */
