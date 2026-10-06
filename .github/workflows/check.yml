@@ -1,0 +1,45 @@
+name: Week 12 tests and coverage
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/week-12/source
+    env:
+      NODE_ENV: test
+      DB_FILE: ':memory:'
+      TURSO_DATABASE_URL: ''
+      TURSO_AUTH_TOKEN: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            labs/week-12/source/api/package-lock.json
+            labs/week-12/source/frontend/package-lock.json
+      - name: Install API dependencies
+        run: npm ci --prefix api
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+      - name: Run API and frontend tests
+        run: npm test
+      - name: Require at least 85 percent statement coverage
+        run: npm run coverage --prefix api -- --coverage.thresholds.statements=85
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: week-12-coverage
+          path: labs/week-12/source/api/coverage
+          if-no-files-found: ignore
